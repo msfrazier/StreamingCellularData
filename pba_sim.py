@@ -60,7 +60,7 @@ if (__name__== '__main__'):
     C = 235 #init prediction value
     R_last = 0 #init last value
 
-    for j in range(1):
+    for j in range(50):
 
         i = 0 # chunk increment
 
