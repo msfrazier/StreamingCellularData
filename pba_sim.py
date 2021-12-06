@@ -60,63 +60,68 @@ if (__name__== '__main__'):
     C = 235 #init prediction value
     R_last = 0 #init last value
 
-    i = 0 # chunk increment
-    
-    while (i < 90):
-        start_t = time.process_time()
-        
-        chunkSize = pba(B,C,R_last)
+    for j in range(1):
 
-        fname = 'data/data' + str(chunkSize) + '.dat'
-        file = open(fname, 'rb')
-        dataFile = file.read()
-        file.close()
+        i = 0 # chunk increment
 
-
-        end_t = time.process_time()
-        elapse_t = end_t - start_t
-
-        extra_t = 4 - elapse_t
-        total_t = elapse_t + extra_t
-        
-        # Uncomment to force each chunk to take 4 total seconds
-        # Warning: full 6 minutes to complete cycle
-        # time.sleep(extra_t)
-
-        # print("Simulating downloading ", chunkSize, "Kb in (",
-        #         elapse_t, "+", extra_t,"=", total_t)
-        print("Simulating downloading ", chunkSize, "Kb in (",
-                '{:.4}'.format(elapse_t),"), {B, C, R_last}: {",
-                B, ",", C, ",", R_last, "}")
-
-        # Set new values for next run
-        R_last = chunkSize
-
-        # Randomize C
-        C_old = C
-
-        # wildly varying rate switches
-        # C = random.randint(100, 5000)
-
-        # smoother rate changes
-        if (C > 200 and C < 5000):
-            C = C + random.randint(-1500, 1500)
-        elif (C > 5000):
-            C = C + random.randint(-1500, 0)
-        else:
-            C = C + random.randint(0, 1500)
-        # Keep C positive
-        if (C < 200):
-            C = 200 
+        while (i < 90):
+            start_t = time.process_time()
             
+            chunkSize = pba(B,C,R_last)
 
-        # Modify buffer by percent based upon data rates
-        B += round((C/C_old) * random.uniform(-1,1))
-        # B should stay >= 0, make sure 0 is min
-        if (B < 0):
-            B = 0
+            fname = 'data/data' + str(chunkSize) + '.dat'
+            file = open(fname, 'rb')
+            dataFile = file.read()
+            file.close()
 
-        i += 1
+
+            end_t = time.process_time()
+            elapse_t = end_t - start_t
+
+            extra_t = 4 - elapse_t
+            total_t = elapse_t + extra_t
+            
+            # Uncomment to force each chunk to take 4 total seconds
+            # Warning: full 6 minutes to complete cycle
+            # time.sleep(extra_t)
+
+            # print("Simulating downloading ", chunkSize, "Kb in (",
+            #         elapse_t, "+", extra_t,"=", total_t)
+
+            # print("Simulating downloading ", chunkSize, "Kb in (",
+            #         '{:.4}'.format(elapse_t),"), {B, C, R_last}: {",
+            #         B, ",", C, ",", R_last, "}")
+
+            print(j, ",", i, ",", chunkSize, ",", B, ",", C, ",", R_last)
+
+            # Set new values for next run
+            R_last = chunkSize
+
+            # Randomize C
+            C_old = C
+
+            # wildly varying rate switches
+            # C = random.randint(100, 5000)
+
+            # smoother rate changes
+            if (C > 200 and C < 5000):
+                C = C + random.randint(-1500, 1500)
+            elif (C > 5000):
+                C = C + random.randint(-1500, 0)
+            else:
+                C = C + random.randint(0, 1500)
+            # Keep C positive
+            if (C < 200):
+                C = 200 
+                
+
+            # Modify buffer by percent based upon data rates
+            B += round((C/C_old) * random.uniform(-1,1))
+            # B should stay >= 0, make sure 0 is min
+            if (B < 0):
+                B = 0
+
+            i += 1
         
         
         
