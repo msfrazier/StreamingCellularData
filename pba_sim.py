@@ -60,9 +60,10 @@ if (__name__== '__main__'):
     C = 235 #init prediction value
     R_last = 0 #init last value
 
-    for j in range(50):
+    for j in range(25):
 
         i = 0 # chunk increment
+        cumulativeTime = 0
 
         while (i < 90):
             start_t = time.process_time()
@@ -80,6 +81,7 @@ if (__name__== '__main__'):
 
             extra_t = 4 - elapse_t
             total_t = elapse_t + extra_t
+            cumulativeTime += total_t
             
             # Uncomment to force each chunk to take 4 total seconds
             # Warning: full 6 minutes to complete cycle
@@ -92,7 +94,8 @@ if (__name__== '__main__'):
             #         '{:.4}'.format(elapse_t),"), {B, C, R_last}: {",
             #         B, ",", C, ",", R_last, "}")
 
-            print(j, ",", i, ",", chunkSize, ",", B, ",", C, ",", R_last)
+            print(cumulativeTime, ",", j, ",", i, ",", chunkSize, ",", 
+                    B, ",", C, ",", R_last)
 
             # Set new values for next run
             R_last = chunkSize
