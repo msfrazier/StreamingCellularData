@@ -91,13 +91,30 @@ if (__name__== '__main__'):
 
         # Set new values for next run
         R_last = chunkSize
-        # Modify the buffer randomly for simulation
-        B = B + random.randint(-4,4)
+
+        # Randomize C
+        C_old = C
+
+        # wildly varying rate switches
+        # C = random.randint(100, 5000)
+
+        # smoother rate changes
+        if (C > 200 and C < 5000):
+            C = C + random.randint(-1500, 1500)
+        elif (C > 5000):
+            C = C + random.randint(-1500, 0)
+        else:
+            C = C + random.randint(0, 1500)
+        # Keep C positive
+        if (C < 200):
+            C = 200 
+            
+
+        # Modify buffer by percent based upon data rates
+        B += round((C/C_old) * random.uniform(-1,1))
         # B should stay >= 0, make sure 0 is min
         if (B < 0):
             B = 0
-        # Randomize C
-        C = random.randint(100, 5000)
 
         i += 1
         
